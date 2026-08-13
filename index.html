@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Undangan Pernikahan — Minhatul & Erwin</title>
+
+<!--
+  ====================================================================
+  CARA MENGEDIT UNDANGAN INI
+  ====================================================================
+  Struktur file:
+    - index.html  -> isi/konten & struktur halaman
+    - style.css   -> semua tampilan/desain
+    - script.js   -> semua interaksi (amplop, countdown, RSVP, musik)
+  Pastikan ketiga file ini disimpan dalam SATU folder yang sama saat
+  dibuka atau di-hosting, karena index.html memanggilnya lewat path
+  relatif ("style.css" dan "script.js").
+
+  1. Cari komentar "EDIT:" di index.html — itu bagian yang perlu
+     kamu sesuaikan (nama orang tua, alamat detail, dsb).
+  2. Data RSVP & Buku Tamu disimpan lewat window.storage (shared)
+     kalau dibuka di panel artifact Claude.ai, otomatis jatuh ke
+     localStorage kalau dibuka/di-hosting di luar Claude.ai (lihat
+     script.js bagian "STORAGE LAYER").
+  3. Musik latar memutar video RESMI Maher Zain - Baraka Allahu Lakuma
+     dari kanal Awakening Records lewat YouTube IFrame Player API
+     (player disembunyikan, hanya audio yang terdengar) — lihat
+     script.js bagian "BACKGROUND MUSIC". Kalau mau ganti lagu,
+     tinggal ganti nilai YT_VIDEO_ID dengan ID video YouTube resmi
+     lainnya. Catatan: butuh koneksi internet aktif saat undangan
+     dibuka karena memuat player dari YouTube.
+  ====================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= COVER / ENVELOPE ================= -->
+<div id="cover">
+  <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Buka undangan">
+    <div class="envelope-body"></div>
+    <div class="envelope-flap"></div>
+    <div class="envelope-seal"><div class="monogram">M·E</div></div>
+  </div>
+  <div class="cover-names">Minhatul &amp; Erwin</div>
+  <div class="cover-guest">Kepada Bapak/Ibu/Saudara/i Tamu Undangan</div>
+  <div class="cover-hint">Ketuk amplop untuk membuka</div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main id="content">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-watermark">M·E</div>
+    <div class="eyebrow">The Wedding Of</div>
+    <h1 class="hero-names">Minhatul Maula<br><span class="hero-amp">&amp;</span><br>Erwin Prasetyo</h1>
+    <div class="divider-mark"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+    <div class="hero-date">Selasa, 29 Desember 2026</div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quote" class="wrap reveal">
+    <p class="quote-arabic">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً</p>
+    <p class="quote-text">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan dari jenismu sendiri, agar kamu merasa tenteram kepadanya, dan Dia jadikan di antaramu rasa kasih dan sayang."</p>
+    <div class="quote-src">QS. Ar-Rum : 21</div>
+  </section>
+
+  <!-- COUPLE -->
+  <section id="mempelai" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Kedua Mempelai</div>
+      <div class="section-title">Yang Berbahagia</div>
+    </div>
+    <div class="couple-grid">
+      <div class="couple-card reveal">
+        <div class="couple-photo-ring"><div class="couple-photo">M</div></div>
+        <div class="couple-name">Minhatul Maula</div>
+        <div class="couple-role">Mempelai Wanita</div>
+        <!-- EDIT: ganti nama orang tua mempelai wanita -->
+        <div class="couple-parents">Putri dari<br>Bapak Nurhadi Suwarno alm &amp; Ibu Siti Aminah</div>
+      </div>
+      <div class="couple-card reveal">
+        <div class="couple-photo-ring"><div class="couple-photo">E</div></div>
+        <div class="couple-name">Erwin Prasetyo</div>
+        <div class="couple-role">Mempelai Pria</div>
+        <!-- EDIT: ganti nama orang tua mempelai pria -->
+        <div class="couple-parents">Putra dari<br>Bapak Sunardi &amp; Ibu Suyati</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENT -->
+  <section id="acara" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Save The Date</div>
+      <div class="section-title">Waktu &amp; Acara</div>
+    </div>
+    <div class="event-card reveal">
+      <svg class="event-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <rect x="3" y="5" width="18" height="16" rx="1"/>
+        <path d="M3 9h18M8 3v4M16 3v4"/>
+        <path d="M8 13h2M14 13h2M8 17h2"/>
+      </svg>
+      <div class="event-name">Akad Nikah &amp; Resepsi</div>
+      <div class="event-detail">
+        <strong>Selasa, 29 Desember 2026</strong><br>
+        Pukul 09.00 WIB &ndash; selesai<br><br>
+        <!-- EDIT: sesuaikan alamat lengkap jika perlu -->
+        Kediaman Mempelai<br>
+        Tonjong, Kabupaten Brebes, Jawa Tengah
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Menghitung Hari</div>
+      <div class="section-title">Menuju Hari Bahagia</div>
+    </div>
+    <div class="cd-grid reveal">
+      <div class="cd-box"><div class="cd-num" id="cd-days">00</div><div class="cd-label">Hari</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">Jam</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-mins">00</div><div class="cd-label">Menit</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-secs">00</div><div class="cd-label">Detik</div></div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="lokasi" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Lokasi</div>
+      <div class="section-title">Denah &amp; Alamat</div>
+    </div>
+    <div class="map-box reveal">
+      <div class="couple-name" style="font-size:1.2rem">Kediaman Mempelai</div>
+      <div class="map-address">
+        Tonjong, Kabupaten Brebes,<br>Jawa Tengah, Indonesia
+      </div>
+      <a class="btn" id="maps-link" href="https://www.google.com/maps/search/?api=1&query=Tonjong%2C%20Kabupaten%20Brebes" target="_blank" rel="noopener">
+        Buka di Google Maps
+      </a>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Konfirmasi Kehadiran</div>
+      <div class="section-title">RSVP</div>
+    </div>
+    <form class="form-box reveal" id="rsvp-form">
+      <div class="field">
+        <label for="f-name">Nama Lengkap</label>
+        <input type="text" id="f-name" required placeholder="Nama Anda">
+      </div>
+      <div class="field">
+        <label>Konfirmasi Kehadiran</label>
+        <div class="radio-row">
+          <label class="radio-opt"><input type="radio" name="attend" value="Hadir" checked> Hadir</label>
+          <label class="radio-opt"><input type="radio" name="attend" value="Tidak Hadir"> Tidak Hadir</label>
+          <label class="radio-opt"><input type="radio" name="attend" value="Masih Ragu"> Masih Ragu</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-guests">Jumlah Tamu</label>
+        <select id="f-guests">
+          <option value="1">1 orang</option>
+          <option value="2">2 orang</option>
+          <option value="3">3 orang</option>
+          <option value="4">4 orang</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-message">Ucapan &amp; Doa</label>
+        <textarea id="f-message" placeholder="Tuliskan ucapan dan doa untuk kedua mempelai..."></textarea>
+      </div>
+      <button type="submit" class="btn" style="width:100%; justify-content:center;">Kirim Konfirmasi</button>
+      <div class="form-msg" id="form-msg">Terima kasih! Konfirmasi Anda sudah tersimpan.</div>
+    </form>
+  </section>
+
+  <!-- WEDDING GIFT / AMPLOP DIGITAL -->
+  <section id="amplop" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Tanda Kasih</div>
+      <div class="section-title">Amplop Digital</div>
+    </div>
+    <p class="gift-intro reveal">
+      Doa restu Bapak/Ibu/Saudara/i adalah karunia yang paling berarti.
+      Namun jika ingin memberikan tanda kasih, kami sediakan nomor
+      rekening berikut.
+    </p>
+    <div class="gift-grid">
+      <!-- EDIT: ganti bank, nama pemilik rekening, dan nomor rekening -->
+      <div class="gift-card reveal">
+        <div class="gift-bank">Bank BCA</div>
+        <div class="gift-number" data-number="1234567890">1234 5678 90</div>
+        <div class="gift-holder">a.n. Minhatul Maula</div>
+        <button type="button" class="btn outline gift-copy" data-copy="1234567890">Salin Nomor</button>
+      </div>
+      <!-- EDIT: ganti bank, nama pemilik rekening, dan nomor rekening -->
+      <div class="gift-card reveal">
+        <div class="gift-bank">Bank Mandiri</div>
+        <div class="gift-number" data-number="0987654321">0987 6543 21</div>
+        <div class="gift-holder">a.n. Erwin Prasetyo</div>
+        <button type="button" class="btn outline gift-copy" data-copy="0987654321">Salin Nomor</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUESTBOOK -->
+  <section id="buku-tamu" class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Buku Tamu</div>
+      <div class="section-title">Ucapan &amp; Doa</div>
+    </div>
+    <div id="guestbook-list" class="reveal">
+      <div class="gb-empty" id="gb-loading">Memuat ucapan...</div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section id="closing" class="wrap">
+    <div class="monogram reveal" style="margin:0 auto;">M·E</div>
+    <div class="closing-thanks reveal">Terima Kasih</div>
+    <p class="closing-note reveal">
+      Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila
+      Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu
+      kepada kedua mempelai.
+    </p>
+  </section>
+
+  <footer>Minhatul &amp; Erwin &middot; 29 Desember 2026</footer>
+</main>
+
+<!-- MUSIC TOGGLE -->
+<button id="music-toggle" aria-label="Putar musik">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+  </svg>
+</button>
+
+<!-- EDIT: musik latar memakai video resmi Maher Zain - Baraka Allahu Lakuma
+     dari kanal Awakening Records (https://www.youtube.com/watch?v=mHpTdsBbYRM).
+     Player disembunyikan (0x0), hanya audionya yang terdengar. -->
+<div id="yt-audio-player"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
