@@ -222,7 +222,9 @@
         formMsg.textContent = 'Terima kasih! Konfirmasi Anda sudah tersimpan.';
         formMsg.classList.add('show');
         rsvpForm.reset();
-        loadGuestbook();
+        // beri jeda singkat supaya data sempat tersimpan di Google Sheets
+        // sebelum buku tamu di-refresh dari sana
+        setTimeout(loadGuestbook, 1200);
       } else {
         formMsg.textContent = 'Gagal menyimpan, silakan coba lagi.';
         formMsg.classList.add('show');
@@ -236,18 +238,35 @@
   
   /* ============================================================
      8. GUESTBOOK LIST
+     Diambil dari Google Sheets (lewat doGet Apps Script) supaya
+     SEMUA tamu melihat ucapan yang sama, bukan cuma dari
+     perangkatnya sendiri. Kalau gagal (mis. tidak ada internet,
+     atau SHEET_WEBHOOK_URL belum diisi), otomatis fallback ke
+     storageAPI (window.storage / localStorage) sebagai cadangan.
      ============================================================ */
   async function loadGuestbook(){
     const listEl = document.getElementById('guestbook-list');
+
+    // --- coba ambil dari Google Sheets dulu ---
+    if(SHEET_WEBHOOK_URL){
+      try{
+        const res = await fetch(SHEET_WEBHOOK_URL, { method: 'GET' });
+        if(res.ok){
+          const entries = await res.json();
+          if(Array.isArray(entries)){
+            renderGuestbook(entries.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0)));
+            return;
+          }
+        }
+      }catch(err){
+        console.error('Gagal memuat buku tamu dari Google Sheets, fallback ke storage lokal:', err);
+      }
+    }
+
+    // --- fallback: storageAPI (window.storage / localStorage) ---
     try{
       const result = await storageAPI.list('rsvp:');
       const keys = (result && result.keys) ? result.keys : [];
-  
-      if(keys.length === 0){
-        listEl.innerHTML = '<div class="gb-empty">Jadilah yang pertama memberi ucapan &amp; doa.</div>';
-        return;
-      }
-  
       const entries = [];
       for(const k of keys){
         try{
@@ -255,28 +274,31 @@
           if(r && r.value){ entries.push(JSON.parse(r.value)); }
         }catch(e){ /* skip broken entries */ }
       }
-  
       entries.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0));
-  
-      if(entries.length === 0){
-        listEl.innerHTML = '<div class="gb-empty">Jadilah yang pertama memberi ucapan &amp; doa.</div>';
-        return;
-      }
-  
-      listEl.innerHTML = entries.map(en => `
-        <div class="gb-item">
-          <div class="gb-top">
-            <span class="gb-name">${escapeHtml(en.name || 'Tamu')}</span>
-            <span class="gb-att">${escapeHtml(en.attend || '')}</span>
-          </div>
-          ${en.message ? `<div class="gb-msg">${escapeHtml(en.message)}</div>` : ''}
-        </div>
-      `).join('');
+      renderGuestbook(entries);
     }catch(err){
       console.error('Storage error:', err);
       listEl.innerHTML = '<div class="gb-empty">Belum ada ucapan yang bisa ditampilkan.</div>';
     }
   }
+
+  function renderGuestbook(entries){
+    const listEl = document.getElementById('guestbook-list');
+    if(!entries || entries.length === 0){
+      listEl.innerHTML = '<div class="gb-empty">Jadilah yang pertama memberi ucapan &amp; doa.</div>';
+      return;
+    }
+    listEl.innerHTML = entries.map(en => `
+      <div class="gb-item">
+        <div class="gb-top">
+          <span class="gb-name">${escapeHtml(en.name || 'Tamu')}</span>
+          <span class="gb-att">${escapeHtml(en.attend || '')}</span>
+        </div>
+        ${en.message ? `<div class="gb-msg">${escapeHtml(en.message)}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
   function escapeHtml(str){
     const d = document.createElement('div');
     d.textContent = str;
