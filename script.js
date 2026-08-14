@@ -171,6 +171,31 @@
   /* ============================================================
      7. RSVP FORM
      ============================================================ */
+  // EDIT: URL Web App Google Apps Script kamu (lihat file apps-script-rsvp.gs)
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMvp5pZQ3mx6nNGyfeidqaCVqtCprsJhm3vAXpURApDfZj2CAJSDPM9Kne-UkxU_8/exec';
+
+  async function sendToSheet(entry){
+    if(!SHEET_WEBHOOK_URL) return;
+    try{
+      // mode 'no-cors' dipakai karena Apps Script Web App tidak mengirim
+      // header CORS ke fetch biasa; kita tidak perlu baca responsnya,
+      // cukup kirim (fire-and-forget), datanya tetap masuk ke sheet.
+      await fetch(SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          nama: entry.name,
+          kehadiran: entry.attend,
+          jumlah: entry.guests,
+          ucapan: entry.message
+        })
+      });
+    }catch(err){
+      console.error('Gagal mengirim RSVP ke Google Sheets:', err);
+    }
+  }
+
   const rsvpForm = document.getElementById('rsvp-form');
   const formMsg = document.getElementById('form-msg');
   
@@ -192,6 +217,7 @@
   
     try{
       const result = await storageAPI.set(key, JSON.stringify(entry));
+      sendToSheet(entry); // kirim ke Google Sheets secara paralel
       if(result){
         formMsg.textContent = 'Terima kasih! Konfirmasi Anda sudah tersimpan.';
         formMsg.classList.add('show');
