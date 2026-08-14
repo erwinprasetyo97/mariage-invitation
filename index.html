@@ -30,6 +30,11 @@
      tinggal ganti nilai YT_VIDEO_ID dengan ID video YouTube resmi
      lainnya. Catatan: butuh koneksi internet aktif saat undangan
      dibuka karena memuat player dari YouTube.
+  4. Nama tamu bisa otomatis muncul di sampul & form RSVP dengan
+     menambahkan ?to=Nama+Tamu di akhir link, contoh:
+       https://domainmu.com/?to=Bapak+Budi+Santoso
+     Kirim link berbeda untuk tiap tamu (bisa dibuat massal lewat
+     Excel/Google Sheets dengan menggabungkan link dasar + nama).
   ====================================================================
 -->
 
@@ -49,7 +54,7 @@
     <div class="envelope-seal"><div class="monogram">M·E</div></div>
   </div>
   <div class="cover-names">Minhatul &amp; Erwin</div>
-  <div class="cover-guest">Kepada Bapak/Ibu/Saudara/i Tamu Undangan</div>
+  <div class="cover-guest" id="cover-guest-name">Kepada Bapak/Ibu/Saudara/i Tamu Undangan</div>
   <div class="cover-hint">Ketuk amplop untuk membuka</div>
 </div>
 
