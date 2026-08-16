@@ -23,6 +23,7 @@ body{
   font-family: var(--font-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  padding-bottom: 64px; /* ruang untuk quick navigation bar */
 }
 
 ::selection{ background: var(--sage); color: var(--bg); }
@@ -447,12 +448,42 @@ section{ padding: 96px 0; position: relative; }
 }
 .closing-note{ font-size: 0.88rem; color: var(--ink-soft); max-width: 400px; margin: 0 auto; line-height: 1.8; }
 
+/* quick navigation bar */
+#quick-nav{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  background: var(--card);
+  border-top: 1px solid var(--line-soft);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  box-shadow: 0 -4px 16px rgba(38,43,34,0.06);
+}
+.nav-item{
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  padding: 12px 6px 10px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 0.64rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.2;
+  transition: color .2s ease;
+}
+.nav-item svg{ width: 20px; height: 20px; }
+.nav-item:hover, .nav-item.active{ color: var(--sage-deep); }
+.nav-item + .nav-item{ border-left: 1px solid var(--line-soft); }
+
 /* music toggle */
 #music-toggle{
   position: fixed;
-  bottom: 24px; right: 24px;
-  z-index: 50;
-  width: 52px; height: 52px;
+  top: 20px; right: 20px;
+  z-index: 65;
+  width: 48px; height: 48px;
   border-radius: 50%;
   background: var(--sage-deep);
   border: none;
@@ -461,7 +492,7 @@ section{ padding: 96px 0; position: relative; }
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(38,43,34,0.25);
 }
-#music-toggle svg{ width: 20px; height: 20px; }
+#music-toggle svg{ width: 18px; height: 18px; }
 #music-toggle.playing{ animation: spin 6s linear infinite; }
 @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
 

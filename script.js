@@ -57,6 +57,26 @@
     });
   }, { threshold: 0.15 });
   revealEls.forEach(el=>io.observe(el));
+
+  /* ---------- highlight ikon quick-nav sesuai section aktif ---------- */
+  const navItems = document.querySelectorAll('.nav-item');
+  const navTargetIds = ['hero', 'acara', 'lokasi'];
+  const navSections = navTargetIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if(navItems.length && navSections.length){
+    const navObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          navItems.forEach(item=>{
+            item.classList.toggle('active', item.dataset.target === entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    navSections.forEach(sec => navObserver.observe(sec));
+  }
   
   /* ============================================================
      4. COUNTDOWN TIMER
