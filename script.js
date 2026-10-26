@@ -192,7 +192,7 @@
       7. RSVP FORM
       ============================================================ */
    // EDIT: URL Web App Google Apps Script kamu (lihat file apps-script-rsvp.gs)
-   const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMvp5pZQ3mx6nNGyfeidqaCVqtCprsJhm3vAXpURApDfZj2CAJSDPM9Kne-UkxU_8/exec';
+   const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxX-HjsjbtguGu-s0ybi4nJ3Bqjm64U53_DHmIXtsxod3A9TBGTl8TK5Cajh-qoxGDF/exec';
 
    async function sendToSheet(entry){
      if(!SHEET_WEBHOOK_URL) return;
