@@ -426,7 +426,21 @@ section{ padding: 96px 0; position: relative; }
 }
 
 /* guestbook */
-#guestbook-list{ margin-top: 34px; display: flex; flex-direction: column; gap: 14px; }
+#guestbook-list{
+  margin-top: 34px;
+  display: flex; flex-direction: column; gap: 14px;
+  /* area scroll: daftar ucapan tidak memanjang tanpa batas */
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sage) var(--line-soft);
+}
+#guestbook-list::-webkit-scrollbar{ width: 6px; }
+#guestbook-list::-webkit-scrollbar-track{ background: var(--line-soft); border-radius: 3px; }
+#guestbook-list::-webkit-scrollbar-thumb{ background: var(--sage); border-radius: 3px; }
+.gb-item{ flex-shrink: 0; }
 .gb-item{
   background: var(--card);
   border: 1px solid var(--line-soft);
