@@ -129,10 +129,24 @@ body{
   color: var(--ink);
 }
 .cover-guest{
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
+  margin-top: 14px;
+  max-width: 340px;
+  padding: 0 20px;
   text-align: center;
+}
+.cover-guest-label{
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+/* nama tamu: dibuat menonjol (lebih besar & tebal) */
+.cover-guest-name{
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+  line-height: 1.25;
+  color: var(--ink);
+  word-break: break-word;
 }
 
 /* ---------- shell / sections ---------- */

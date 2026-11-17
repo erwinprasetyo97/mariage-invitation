@@ -11,7 +11,7 @@
    
      if(guestName && guestName.trim()){
        const cleanName = guestName.trim();
-       guestEl.textContent = 'Kepada Yth. Bapak/Ibu/Saudara/i ' + cleanName;
+       guestEl.textContent = cleanName; // label "Kepada Yth..." sudah ada di baris terpisah di index.html
    
        // isi otomatis form RSVP setelah halaman siap
        document.addEventListener('DOMContentLoaded', ()=>{
@@ -192,7 +192,7 @@
       7. RSVP FORM
       ============================================================ */
    // EDIT: URL Web App Google Apps Script kamu (lihat file apps-script-rsvp.gs)
-   const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxX-HjsjbtguGu-s0ybi4nJ3Bqjm64U53_DHmIXtsxod3A9TBGTl8TK5Cajh-qoxGDF/exec';
+   const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMvp5pZQ3mx6nNGyfeidqaCVqtCprsJhm3vAXpURApDfZj2CAJSDPM9Kne-UkxU_8/exec';
 
    async function sendToSheet(entry){
      if(!SHEET_WEBHOOK_URL) return;
